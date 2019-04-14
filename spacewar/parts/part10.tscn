@@ -18,7 +18,7 @@ shader_param/health = 1.0
 shader = ExtResource( 5 )
 shader_param/color = Plane( 1, 1, 0, 1 )
 
-[node name="Node2D" type="CollisionShape2D"]
+[node name="Thruster" type="CollisionShape2D"]
 shape = SubResource( 1 )
 script = ExtResource( 2 )
 main_sprite = NodePath("Sprite")

@@ -29,24 +29,6 @@ func _process(delta):
 		activate_primary()
 	if Input.is_action_pressed("p1_secondary"):
 		activate_secondary()
-		
-	
-
-func _integrate_forces(state):
-	recalc_mass(state)
-
-func _on_hit(body_id, body, body_shape, local_shape):
-	var hit_shape = shape_find_owner(local_shape)
-	var hit_module = shape_owner_get_owner(hit_shape)
-	hit_module.queue_free()
-
-
-func get_thrusters():
-	var thrusters = []
-	for module in get_children():
-		if module.type == module.MODULE_TYPES.THRUSTER:
-			thrusters.append(module)
-	return thrusters
 
 
 func add_thrust(thrust, turn):
@@ -60,6 +42,25 @@ func add_thrust(thrust, turn):
 		var thrust_v3 = Vector3(local_thrust_location.x, local_thrust_location.y, 0)
 		var ang = thrust_v3.cross(Vector3(locaL_thrust_direction.x, locaL_thrust_direction.y, 0))
 		thruster.apply_thrust(ang.z * turn)
+
+
+func activate_primary():
+	for primary in get_primaries():
+		primary.set_active()
+
+func activate_secondary():
+	for secondary in get_secondaries():
+		secondary.set_active()
+
+
+func _on_hit(body_id, body, body_shape, local_shape):
+	var hit_shape = shape_find_owner(local_shape)
+	var hit_module = shape_owner_get_owner(hit_shape)
+	hit_module.queue_free()
+
+
+func _integrate_forces(state):
+	recalc_mass(state)
 
 
 func recalc_mass(state):
@@ -84,8 +85,27 @@ func recalc_mass(state):
 		module.position -= center
 	state.transform.origin += global_center_delta
 
-func activate_primary():
-	pass
 
-func activate_secondary():
-	pass
+
+
+
+func get_thrusters():
+	var thrusters = []
+	for module in get_children():
+		if module.type == module.MODULE_TYPES.THRUSTER:
+			thrusters.append(module)
+	return thrusters
+
+func get_primaries():
+	var primaries = []
+	for module in get_children():
+		if module.type == module.MODULE_TYPES.PRIMARY:
+			primaries.append(module)
+	return primaries
+
+func get_secondaries():
+	var secondaries = []
+	for module in get_children():
+		if module.type == module.MODULE_TYPES.SECONDARIES:
+			secondaries.append(module)
+	return secondaries

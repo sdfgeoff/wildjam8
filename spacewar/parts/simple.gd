@@ -7,8 +7,9 @@ export(NodePath) var main_sprite = ""
 
 enum MODULE_TYPES {
 	SIMPLE,
-	GUN,
 	THRUSTER,
+	PRIMARY,
+	SECONDARY,
 }
 
 var type = MODULE_TYPES.SIMPLE;

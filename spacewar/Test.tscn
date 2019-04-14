@@ -11,9 +11,8 @@ radius = 50.0
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 482.646, 203.747 )
 rotation = 2.98975
-scale = Vector2( 1, 1 )
 current = true
-zoom = Vector2( 3, 3 )
+zoom = Vector2( 2, 2 )
 
 [node name="Node2D" parent="." instance=ExtResource( 1 )]
 position = Vector2( 482.646, 203.747 )

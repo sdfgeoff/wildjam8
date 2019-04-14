@@ -1,25 +1,32 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://parts/parts.png" type="Texture" id=1]
 [ext_resource path="res://parts/gun.gd" type="Script" id=2]
 [ext_resource path="res://parts/part.shader" type="Shader" id=3]
+[ext_resource path="res://fx/bullet.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 3 )
 shader_param/color = Plane( 0, 1, 0, 1 )
 shader_param/health = 1.0
 
-[node name="Node2D" type="CollisionShape2D"]
+[node name="GunTurret" type="CollisionShape2D"]
 shape = SubResource( 1 )
 script = ExtResource( 2 )
-main_sprite = NodePath("Sprite")
+main_sprite = NodePath("TurretVisuals")
+spawner = NodePath("Spawner")
+bullet_scene = ExtResource( 4 )
+refire_time = 0.2
 
-[node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
+[node name="TurretVisuals" type="Sprite" parent="."]
+material = SubResource( 2 )
 texture = ExtResource( 1 )
 vframes = 4
 hframes = 4
 frame = 12
+
+[node name="Spawner" type="Node2D" parent="."]
+position = Vector2( 0, 50 )
