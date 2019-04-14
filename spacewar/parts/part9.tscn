@@ -1,0 +1,42 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://parts/parts.png" type="Texture" id=1]
+[ext_resource path="res://parts/thruster.gd" type="Script" id=2]
+[ext_resource path="res://parts/part.shader" type="Shader" id=3]
+[ext_resource path="res://parts/sprites.png" type="Texture" id=4]
+[ext_resource path="res://parts/thruster.shader" type="Shader" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 50.0
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = ExtResource( 3 )
+shader_param/color = Plane( 0, 1, 0, 1 )
+shader_param/health = 1.0
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 5 )
+shader_param/color = Plane( 1, 1, 0, 1 )
+
+[node name="Node2D" type="CollisionShape2D"]
+shape = SubResource( 1 )
+script = ExtResource( 2 )
+main_sprite = NodePath("Sprite")
+flame_path = NodePath("Node2D")
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 2 )
+texture = ExtResource( 1 )
+vframes = 4
+hframes = 4
+frame = 8
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2( 0, 40 )
+
+[node name="Flame" type="Sprite" parent="Node2D"]
+material = SubResource( 3 )
+position = Vector2( 0, 50 )
+texture = ExtResource( 4 )
+vframes = 4
+hframes = 4
