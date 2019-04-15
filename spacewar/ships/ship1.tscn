@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://parts/part2.tscn" type="PackedScene" id=1]
 [ext_resource path="res://parts/part8.tscn" type="PackedScene" id=2]
 [ext_resource path="res://parts/part10.tscn" type="PackedScene" id=3]
 [ext_resource path="res://parts/part5.tscn" type="PackedScene" id=4]
+[ext_resource path="res://parts/part12.tscn" type="PackedScene" id=5]
 [ext_resource path="res://parts/part9.tscn" type="PackedScene" id=6]
 [ext_resource path="res://parts/part7.tscn" type="PackedScene" id=7]
 [ext_resource path="res://parts/part13.tscn" type="PackedScene" id=8]
@@ -13,10 +14,10 @@
 script = ExtResource( 9 )
 
 [node name="Node2D12" parent="." instance=ExtResource( 4 )]
-position = Vector2( 38, -8.38846 )
+position = Vector2( 38, 39.6115 )
 
 [node name="Node2D13" parent="." instance=ExtResource( 4 )]
-position = Vector2( -38, -8.38846 )
+position = Vector2( -38, 39.6115 )
 scale = Vector2( -1, 1 )
 
 [node name="Node2D5" parent="." instance=ExtResource( 2 )]
@@ -54,6 +55,8 @@ scale = Vector2( 1, -1 )
 
 [node name="ThrusterRight" parent="." instance=ExtResource( 3 )]
 position = Vector2( 90, 56.6115 )
+
+[node name="Core" parent="." instance=ExtResource( 5 )]
 
 [node name="ThrusterCenter" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0, 74.6115 )

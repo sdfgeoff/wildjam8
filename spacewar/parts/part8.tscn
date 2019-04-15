@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://parts/parts.png" type="Texture" id=1]
 [ext_resource path="res://parts/simple.gd" type="Script" id=2]
 [ext_resource path="res://parts/part.shader" type="Shader" id=3]
+[ext_resource path="res://fx/part_splash.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
@@ -16,6 +17,7 @@ shader_param/health = 1.0
 shape = SubResource( 1 )
 script = ExtResource( 2 )
 main_sprite = NodePath("Sprite")
+splash = ExtResource( 4 )
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )
