@@ -1,7 +1,7 @@
 extends "res://parts/simple.gd"
 
 export(NodePath) var flame_path = ""
-export(float) var max_thrust = 600.0
+export(float) var max_thrust = 1200.0
 
 var thrust_request = 0.0
 

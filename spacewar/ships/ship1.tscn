@@ -41,12 +41,12 @@ scale = Vector2( 1, -1 )
 
 [node name="ThrusterSteeringLeft" parent="." instance=ExtResource( 3 )]
 position = Vector2( -70, -78 )
-rotation = 1.5708
+rotation = 2.61799
 scale = Vector2( -1, 1 )
 
 [node name="ThrusterSteeringRight" parent="." instance=ExtResource( 3 )]
 position = Vector2( 70, -78 )
-rotation = -1.5708
+rotation = -2.61799
 
 [node name="ThrusterLeft" parent="." instance=ExtResource( 3 )]
 position = Vector2( -90, 56.6115 )
