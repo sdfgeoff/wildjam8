@@ -1,0 +1,38 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=4]
+code = "shader_type canvas_item;
+
+
+uniform float circle_radius = 900.0;
+
+
+
+
+
+void fragment(){
+	vec2 screen_pixels_from_center = ((SCREEN_UV - vec2(0.5)) * 2.0) / SCREEN_PIXEL_SIZE;
+	
+	vec2 point_on_radius = normalize(screen_pixels_from_center) * circle_radius;
+	vec2 opposite_radius = -point_on_radius;
+	vec2 delta_from_boundary = point_on_radius - screen_pixels_from_center;
+	vec2 opposite_point = opposite_radius - delta_from_boundary;
+	vec2 here_point = point_on_radius - delta_from_boundary;
+	
+	vec2 sample_here = (screen_pixels_from_center * SCREEN_PIXEL_SIZE) / 2.0 + vec2(0.5);
+	vec2 sample_there = (opposite_point * SCREEN_PIXEL_SIZE) / 2.0 + vec2(0.5);
+	
+	float blur = pow(length(screen_pixels_from_center) / circle_radius, 4.0) * 5.0;
+	
+	vec4 here = textureLod(SCREEN_TEXTURE, sample_here, blur);
+	vec4 there = textureLod(SCREEN_TEXTURE, sample_there, blur);
+
+	float radius_pixels = length(screen_pixels_from_center);
+	float line = radius_pixels > (circle_radius-5.0) && radius_pixels < (circle_radius + 5.0) ? 1.0: 0.0;
+	COLOR = (here + there) * (1.0 + blur);// + vec4(line);
+	COLOR.a = 1.0;
+}"
+
+[resource]
+shader = SubResource( 4 )
+shader_param/circle_radius = 900.0

@@ -18,7 +18,8 @@ func apply_thrust(thrust):
 func _process(delta):
 	
 	# TODO: make time invariant
-	
+	if not alive:
+		return
 	var thrust = clamp(thrust_request, 0.0, 1.0)
 	_actual_thrust = lerp(_actual_thrust, thrust, 0.5)
 	var thrust_vec = -global_transform.y * _actual_thrust * max_thrust * delta

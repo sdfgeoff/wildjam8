@@ -8,7 +8,7 @@ export(PackedScene) var splash = null
 
 
 func _ready():
-	linear_velocity = global_transform.y * velocity
+	
 	linear_damp = 0.0
 	contact_monitor = true
 	contacts_reported = 5
@@ -17,6 +17,7 @@ func _ready():
 
 # Called when the node enters the scene tree for the first time.
 func _process(delta):
+	linear_velocity = global_transform.y * velocity
 	max_life -= delta
 	if max_life < 0.0:
 		queue_free()
@@ -24,7 +25,7 @@ func _process(delta):
 func _on_hit(_body):
 	var splash_instance = splash.instance()
 	get_parent().add_child(splash_instance)
-	splash_instance.transform = transform
+	splash_instance.global_transform = global_transform
 	queue_free()
 
 func get_damage():

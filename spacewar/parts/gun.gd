@@ -29,6 +29,6 @@ func _process(delta):
 
 func _fire():
 	var bullet = bullet_scene.instance()
-	bullet.global_transform = get_node(spawner).global_transform
 	get_parent().get_parent().add_child(bullet)
+	bullet.global_transform = get_node(spawner).global_transform
 	bullet.add_collision_exception_with(get_parent())

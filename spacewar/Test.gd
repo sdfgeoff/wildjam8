@@ -23,11 +23,11 @@ func update_player_1():
 	if Input.is_action_pressed("p1_backward"):
 		thrust -= 1.0
 	if Input.is_action_pressed("p1_left"):
-		turn += 1.0
-	if Input.is_action_pressed("p1_right"):
 		turn -= 1.0
+	if Input.is_action_pressed("p1_right"):
+		turn += 1.0
 	
-	player_1_ship.add_thrust(thrust, turn)
+	player_1_ship.request_motion(Vector2(0,thrust), turn)
 	
 	if Input.is_action_pressed("p1_primary"):
 		player_1_ship.activate_primary()
@@ -46,11 +46,11 @@ func update_player_2():
 	if Input.is_action_pressed("p2_backward"):
 		thrust -= 1.0
 	if Input.is_action_pressed("p2_left"):
-		turn += 1.0
-	if Input.is_action_pressed("p2_right"):
 		turn -= 1.0
+	if Input.is_action_pressed("p2_right"):
+		turn += 1.0
 	
-	player_2_ship.add_thrust(thrust, turn)
+	player_2_ship.request_motion(Vector2(0,thrust), turn)
 	
 	if Input.is_action_pressed("p2_primary"):
 		player_2_ship.activate_primary()

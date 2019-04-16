@@ -1,70 +1,78 @@
 [gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://parts/part2.tscn" type="PackedScene" id=1]
-[ext_resource path="res://parts/part8.tscn" type="PackedScene" id=2]
-[ext_resource path="res://parts/part10.tscn" type="PackedScene" id=3]
-[ext_resource path="res://parts/part5.tscn" type="PackedScene" id=4]
-[ext_resource path="res://parts/part12.tscn" type="PackedScene" id=5]
-[ext_resource path="res://parts/part9.tscn" type="PackedScene" id=6]
-[ext_resource path="res://parts/part7.tscn" type="PackedScene" id=7]
-[ext_resource path="res://parts/part13.tscn" type="PackedScene" id=8]
+[ext_resource path="res://parts/part9.tscn" type="PackedScene" id=1]
+[ext_resource path="res://parts/part10.tscn" type="PackedScene" id=2]
+[ext_resource path="res://parts/part5.tscn" type="PackedScene" id=3]
+[ext_resource path="res://parts/part13.tscn" type="PackedScene" id=4]
+[ext_resource path="res://parts/part7.tscn" type="PackedScene" id=5]
+[ext_resource path="res://parts/part12.tscn" type="PackedScene" id=6]
+[ext_resource path="res://parts/part8.tscn" type="PackedScene" id=7]
+[ext_resource path="res://parts/part2.tscn" type="PackedScene" id=8]
 [ext_resource path="res://ships/ship.gd" type="Script" id=9]
 
 [node name="Node2D" type="RigidBody2D"]
 script = ExtResource( 9 )
 
-[node name="Node2D12" parent="." instance=ExtResource( 4 )]
-position = Vector2( 38, 39.6115 )
+[node name="Node2D12" parent="." instance=ExtResource( 3 )]
+position = Vector2( -38.0002, -39.6113 )
+rotation = 3.14159
 
-[node name="Node2D13" parent="." instance=ExtResource( 4 )]
-position = Vector2( -38, 39.6115 )
-scale = Vector2( -1, 1 )
-
-[node name="Node2D5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 0, -93.3885 )
-rotation = 0.785398
-
-[node name="Node2D3" parent="." instance=ExtResource( 1 )]
-position = Vector2( 30, -143.388 )
-
-[node name="Node2D4" parent="." instance=ExtResource( 1 )]
-position = Vector2( -30, -143.388 )
-scale = Vector2( -1, 1 )
-
-[node name="Node2D8" parent="." instance=ExtResource( 7 )]
-position = Vector2( 64, -18 )
-
-[node name="Node2D9" parent="." instance=ExtResource( 7 )]
-position = Vector2( -64, -18 )
-rotation = -3.14159
+[node name="Node2D13" parent="." instance=ExtResource( 3 )]
+position = Vector2( 37.9998, -39.6117 )
+rotation = 4.44253e-06
 scale = Vector2( 1, -1 )
 
-[node name="ThrusterSteeringLeft" parent="." instance=ExtResource( 3 )]
-position = Vector2( -70, -78 )
-rotation = 2.61799
-scale = Vector2( -1, 1 )
+[node name="Node2D5" parent="." instance=ExtResource( 7 )]
+position = Vector2( 0.000414881, 93.3885 )
+rotation = -2.3562
 
-[node name="ThrusterSteeringRight" parent="." instance=ExtResource( 3 )]
-position = Vector2( 70, -78 )
-rotation = -2.61799
-
-[node name="ThrusterLeft" parent="." instance=ExtResource( 3 )]
-position = Vector2( -90, 56.6115 )
+[node name="Node2D3" parent="." instance=ExtResource( 8 )]
+position = Vector2( -29.9994, 143.388 )
 rotation = 3.14159
+
+[node name="Node2D4" parent="." instance=ExtResource( 8 )]
+position = Vector2( 30.0006, 143.388 )
+rotation = 4.44253e-06
 scale = Vector2( 1, -1 )
 
-[node name="ThrusterRight" parent="." instance=ExtResource( 3 )]
-position = Vector2( 90, 56.6115 )
-
-[node name="Core" parent="." instance=ExtResource( 5 )]
-
-[node name="ThrusterCenter" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0, 74.6115 )
-
-[node name="GunLeft" parent="." instance=ExtResource( 8 )]
-position = Vector2( -40, -73.3885 )
+[node name="Node2D8" parent="." instance=ExtResource( 5 )]
+position = Vector2( -63.9999, 18.0003 )
 rotation = 3.14159
 
-[node name="GunRight" parent="." instance=ExtResource( 8 )]
-position = Vector2( 40, -73.3885 )
+[node name="Node2D9" parent="." instance=ExtResource( 5 )]
+position = Vector2( 64.0001, 17.9997 )
+rotation = 1.66893e-06
+scale = Vector2( 1, -1 )
+
+[node name="ThrusterSteeringLeft" parent="." instance=ExtResource( 2 )]
+position = Vector2( 70.0003, 77.9997 )
+rotation = -0.698132
+
+[node name="ThrusterSteeringRight" parent="." instance=ExtResource( 2 )]
+position = Vector2( -69.9997, 78.0003 )
+rotation = 0.698132
+scale = Vector2( -1, 1 )
+
+[node name="ThrusterLeft" parent="." instance=ExtResource( 2 )]
+position = Vector2( 89.9997, -56.6119 )
+rotation = 7.21613e-06
+scale = Vector2( 1, -1 )
+
+[node name="ThrusterRight" parent="." instance=ExtResource( 2 )]
+position = Vector2( -90.0003, -56.6111 )
 rotation = 3.14159
+
+[node name="Core" parent="." instance=ExtResource( 6 )]
+rotation = 3.14159
+
+[node name="ThrusterCenter" parent="." instance=ExtResource( 1 )]
+position = Vector2( -0.000331464, -74.6115 )
+rotation = 3.14159
+
+[node name="GunLeft" parent="." instance=ExtResource( 4 )]
+position = Vector2( 40.0003, 73.3883 )
+rotation = -7.21613e-06
+
+[node name="GunRight" parent="." instance=ExtResource( 4 )]
+position = Vector2( -39.9997, 73.3887 )
+rotation = -7.21613e-06

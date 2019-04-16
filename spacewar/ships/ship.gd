@@ -2,34 +2,50 @@ extends RigidBody2D
 
 export(Color) var ship_color = Color(0,0,1)
 
+
+var _velocity_request := Vector3()
+
 func _init():
 	contact_monitor = true
 	contacts_reported = 5
 	linear_damp = 0.0
 	angular_damp = 0.0
 
+
 func _ready():
 	for module in get_children():
 		module.set_color(ship_color)
 	connect("body_shape_entered", self, "_on_hit")
 
+
 func _process(_delta):
-	if len(get_cores()) == 0:
+	if len(get_cores()) == 0 or Input.is_action_just_pressed("ui_cancel"):
 		# TODO: explode!
 		queue_free()
+	
+	add_thrust(
+		Vector2(_velocity_request.x, _velocity_request.y),# * 1000.0 - global_transform.basis_xform_inv(linear_velocity) / 50.0,
+		_velocity_request.z * 100 #- angular_velocity * 1.0
+	)
 
 
-func add_thrust(thrust, turn):
+func request_motion(velocity: Vector2, turn: float):
+	_velocity_request = Vector3(velocity.x, velocity.y, turn)
+
+
+func add_thrust(thrust: Vector2, turn: float):
 	for thruster in get_thrusters():
-		var locaL_thrust_direction = thruster.transform.y
+		var locaL_thrust_direction = -thruster.transform.y
 		var local_thrust_location = thruster.position
 		
-		var lin = locaL_thrust_direction.dot(Vector2(0,1))
-		thruster.apply_thrust(lin * thrust * 5.0)
+		var lin_y = locaL_thrust_direction.dot(Vector2(0,1)) * thrust.y
+		var lin_x = locaL_thrust_direction.dot(Vector2(1,0)) * thrust.x
+		
+		thruster.apply_thrust(lin_y + lin_x)
 		
 		var thrust_v3 = Vector3(local_thrust_location.x, local_thrust_location.y, 0)
 		var ang = thrust_v3.cross(Vector3(locaL_thrust_direction.x, locaL_thrust_direction.y, 0))
-		thruster.apply_thrust(ang.z * turn)
+		thruster.apply_thrust(ang.z * turn / 5.0)
 
 
 func activate_primary():
@@ -57,8 +73,9 @@ func recalc_mass(state):
 	var tmp_mass = 0.0
 	var center = Vector2()
 	for module in get_children():
-		tmp_mass += module.mass
-		center += module.position * module.mass
+		if module.alive:
+			tmp_mass += module.mass
+			center += module.position * module.mass
 	mass = tmp_mass
 	if mass == 0: 
 		# No modules left - abort
@@ -82,27 +99,27 @@ func recalc_mass(state):
 func get_thrusters():
 	var thrusters = []
 	for module in get_children():
-		if module.type == module.MODULE_TYPES.THRUSTER:
+		if module.type == module.MODULE_TYPES.THRUSTER and module.alive:
 			thrusters.append(module)
 	return thrusters
 
 func get_primaries():
 	var primaries = []
 	for module in get_children():
-		if module.type == module.MODULE_TYPES.PRIMARY:
+		if module.type == module.MODULE_TYPES.PRIMARY and module.alive:
 			primaries.append(module)
 	return primaries
 
 func get_secondaries():
 	var secondaries = []
 	for module in get_children():
-		if module.type == module.MODULE_TYPES.SECONDARY:
+		if module.type == module.MODULE_TYPES.SECONDARY and module.alive:
 			secondaries.append(module)
 	return secondaries
 
 func get_cores():
 	var cores = []
 	for module in get_children():
-		if module.type == module.MODULE_TYPES.CORE:
+		if module.type == module.MODULE_TYPES.CORE and module.alive:
 			cores.append(module)
 	return cores
