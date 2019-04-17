@@ -25,7 +25,7 @@ func _process(_delta):
 	
 	add_thrust(
 		Vector2(_velocity_request.x, _velocity_request.y),# * 1000.0 - global_transform.basis_xform_inv(linear_velocity) / 50.0,
-		_velocity_request.z * 100 #- angular_velocity * 1.0
+		_velocity_request.z * 100# - angular_velocity * 5.0
 	)
 
 

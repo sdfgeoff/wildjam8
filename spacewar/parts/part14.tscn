@@ -2,9 +2,9 @@
 
 [ext_resource path="res://parts/parts.png" type="Texture" id=1]
 [ext_resource path="res://parts/gun.gd" type="Script" id=2]
-[ext_resource path="res://parts/part_material.tres" type="Material" id=3]
-[ext_resource path="res://fx/bullet.tscn" type="PackedScene" id=4]
-[ext_resource path="res://fx/part_splash.tscn" type="PackedScene" id=5]
+[ext_resource path="res://fx/part_splash.tscn" type="PackedScene" id=3]
+[ext_resource path="res://parts/part_material.tres" type="Material" id=4]
+[ext_resource path="res://fx/bullet.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 50.0
@@ -13,17 +13,17 @@ radius = 50.0
 shape = SubResource( 1 )
 script = ExtResource( 2 )
 main_sprite = NodePath("TurretVisuals")
-splash = ExtResource( 5 )
+splash = ExtResource( 3 )
 spawner = NodePath("Spawner")
-bullet_scene = ExtResource( 4 )
+bullet_scene = ExtResource( 5 )
 refire_time = 0.2
 
 [node name="TurretVisuals" type="Sprite" parent="."]
-material = ExtResource( 3 )
+material = ExtResource( 4 )
 texture = ExtResource( 1 )
 vframes = 4
 hframes = 4
-frame = 12
+frame = 13
 
 [node name="Spawner" type="Node2D" parent="."]
 position = Vector2( 0, 50 )
