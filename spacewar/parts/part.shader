@@ -1,7 +1,7 @@
 shader_type canvas_item;
 render_mode blend_mix;
 
-uniform vec4 color = vec4(0.0,1.0,0.0, 1.0);
+uniform vec4 color: hint_color = vec4(0.0,1.0,0.0, 1.0);
 uniform float health = 1.0;
 
 

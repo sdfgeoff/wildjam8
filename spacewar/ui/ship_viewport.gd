@@ -31,6 +31,7 @@ func _set_ship_id(id):
 	ship_id = id
 	_update_ship()
 
+
 func _update_border(_val):
 	var is_player_1 = state.get("player_1.ship_type") == ship_id
 	var is_player_2 = state.get("player_2.ship_type") == ship_id

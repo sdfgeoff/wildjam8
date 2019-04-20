@@ -1,7 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=2]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
+shader_type canvas_item;
 render_mode blend_add;
 uniform int particles_anim_h_frames;
 uniform int particles_anim_v_frames;
@@ -33,10 +30,4 @@ void fragment(){
 	vec3 col = clamp(COLOR.rgb - center*0.2 + glow, 0.0, 1.0);
 	COLOR.rgb = col;
 	COLOR.a = clamp(outline + glow + center, 0.0, 1.0) * COLOR.a;
-}"
-
-[resource]
-shader = SubResource( 1 )
-shader_param/particles_anim_h_frames = 4
-shader_param/particles_anim_v_frames = 4
-shader_param/particles_anim_loop = false
+}

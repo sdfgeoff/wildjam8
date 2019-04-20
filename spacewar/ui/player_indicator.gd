@@ -26,10 +26,10 @@ func _change_playerid(newval):
 	state.connect_call(new_id_str + "player_type", self, "_change_type")
 	state.connect_call(new_id_str + "ready", self, "_change_ready")
 
-func _change_type(newtype):
+func _change_type(_newtype):
 	redraw()
 
-func _change_ready(is_ready):
+func _change_ready(_is_ready):
 	redraw()
 
 func redraw():

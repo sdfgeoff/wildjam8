@@ -13,12 +13,15 @@ var _state = {
 	"player_1.ship_type": 0,
 	"player_1.player_type": 0,
 	"player_1.ready": false,
+	"player_1.kills": 0,
+	"player_1.deaths": 0,
 	"player_2.ship_type": 1,
 	"player_2.player_type": 0,
 	"player_2.ready": false,
+	"player_2.kills": 0,
+	"player_2.deaths": 0,
 	"game.num_rounds": 3,
-	"game.current_round": 3,
-	"game.wins": [],
+	"game.current_round": 0,
 }
 
 # Elements of state that should be written to disk

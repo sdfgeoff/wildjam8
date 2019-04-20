@@ -8,6 +8,12 @@ func _process(_delta):
 		all_ready = all_ready and player_is_ready
 	
 	if all_ready:
+		state.set("game.current_round", 0)
+		for player_id in range(defs.NUM_PLAYERS):
+			var player = "player_%d." % (player_id + 1)
+			state.set(player + "ready", false)
+			state.set(player + "kills", 0)
+			state.set(player + "deaths", 0)
 		get_tree().change_scene("res://map.tscn")
 	
 

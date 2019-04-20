@@ -1,15 +1,16 @@
 extends "res://warpbody.gd"
 
 export(Color) var ship_color = Color(0,0,1)
-
-
+export(PackedScene) var explosion = preload("res://fx/ship_splash.tscn")
 var _velocity_request := Vector3()
+
+signal on_death(dying_ship, killer_bullet)
 
 func _init():
 	contact_monitor = true
 	contacts_reported = 5
-	linear_damp = 0.0
-	angular_damp = 0.0
+	linear_damp = 0.1
+	angular_damp = 0.1
 
 
 func _ready():
@@ -19,10 +20,6 @@ func _ready():
 
 
 func _process(_delta):
-	if len(get_cores()) == 0 or Input.is_action_just_pressed("ui_cancel"):
-		# TODO: explode!
-		queue_free()
-	
 	add_thrust(
 		Vector2(_velocity_request.x, _velocity_request.y),# * 1000.0 - global_transform.basis_xform_inv(linear_velocity) / 50.0,
 		_velocity_request.z * 100# - angular_velocity * 5.0
@@ -62,6 +59,13 @@ func _on_hit(_body_id, body, _body_shape, local_shape):
 		var hit_shape = shape_find_owner(local_shape)
 		var hit_module = shape_owner_get_owner(hit_shape)
 		hit_module.inflict_damage(body.get_damage())
+		
+		if len(get_cores()) == 0:
+			var new_explosion = explosion.instance()
+			get_parent().add_child(new_explosion)
+			new_explosion.global_transform = global_transform
+			emit_signal("on_death", self, body)  # Notify the world this node is about to become invalid
+			queue_free()
 	
 
 

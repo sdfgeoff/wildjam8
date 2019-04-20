@@ -7,8 +7,8 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
-shader_param/color1 = Color( 0, 0, 1, 1 )
-shader_param/color2 = Color( 0, 0, 1, 1 )
+shader_param/color1 = Color( 0, 0, 0, 1 )
+shader_param/color2 = Color( 0, 0, 0, 1 )
 
 [node name="ShipViewport" type="ViewportContainer"]
 anchor_left = 0.5
