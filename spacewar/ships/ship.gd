@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends "res://warpbody.gd"
 
 export(Color) var ship_color = Color(0,0,1)
 

@@ -7,9 +7,6 @@ code = "shader_type canvas_item;
 uniform float circle_radius = 900.0;
 
 
-
-
-
 void fragment(){
 	vec2 screen_pixels_from_center = ((SCREEN_UV - vec2(0.5)) * 2.0) / SCREEN_PIXEL_SIZE;
 	

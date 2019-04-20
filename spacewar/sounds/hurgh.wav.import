@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hurgh.wav-685c1ce6eab6f6f14bed46b62b6b8f23.sample"
+
+[deps]
+
+source_file="res://sounds/hurgh.wav"
+dest_files=[ "res://.import/hurgh.wav-685c1ce6eab6f6f14bed46b62b6b8f23.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

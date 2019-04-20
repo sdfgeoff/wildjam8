@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends "res://warpbody.gd"
 
 export(float) var velocity = 2000.0
 export(float) var damage = 0.5
@@ -8,12 +8,12 @@ export(PackedScene) var splash = null
 
 
 func _ready():
-	
 	linear_damp = 0.0
 	contact_monitor = true
 	contacts_reported = 5
 	connect("body_entered", self, "_on_hit")
-	$AudioStreamPlayer.pitch_scale = (randi()%5 / 5.0) + 1.0
+	$AudioStreamPlayer.pitch_scale = randf() * 0.2 + 1.0
+	connect("on_warp", self, "_on_warp")
 
 # Called when the node enters the scene tree for the first time.
 func _process(delta):
@@ -30,3 +30,8 @@ func _on_hit(_body):
 
 func get_damage():
 	return damage
+
+
+func _on_warp(warps):
+	if warps == 2:
+		queue_free()
