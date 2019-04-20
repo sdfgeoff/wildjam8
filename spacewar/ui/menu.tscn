@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/ship_selector.gd" type="Script" id=1]
 [ext_resource path="res://ui/main_menu.gd" type="Script" id=2]
@@ -7,8 +7,6 @@
 [ext_resource path="res://ui/TitleMaterial.tres" type="Material" id=5]
 [ext_resource path="res://ui/regular_font.tres" type="DynamicFont" id=6]
 [ext_resource path="res://ui/Box.tres" type="StyleBox" id=7]
-[ext_resource path="res://ui/about_button.gd" type="Script" id=8]
-[ext_resource path="res://ui/QuitButton.gd" type="Script" id=9]
 
 [sub_resource type="AtlasTexture" id=1]
 flags = 4
@@ -53,6 +51,7 @@ margin_top = 0.0
 margin_right = 643.0
 margin_bottom = 268.0
 rect_scale = Vector2( 1, 1 )
+player_id = 0
 
 [node name="Control2" parent="MainMenu/HBoxContainer" instance=ExtResource( 3 )]
 anchor_left = 0.0
@@ -92,7 +91,6 @@ custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 0.678431, 0, 1 )
 text = "ABOUT"
-script = ExtResource( 8 )
 
 [node name="SettingsButton" type="Button" parent="MainMenu/Buttons"]
 visible = false
@@ -128,6 +126,5 @@ custom_styles/normal = ExtResource( 7 )
 custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 1, 0.678431, 0, 1 )
 text = "QUIT"
-script = ExtResource( 9 )
-[connection signal="pressed" from="MainMenu/Buttons/AboutButton" to="MainMenu/Buttons/AboutButton" method="_on_AboutButton_pressed"]
-[connection signal="pressed" from="MainMenu/Buttons/QuitButton" to="MainMenu/Buttons/QuitButton" method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="MainMenu/Buttons/AboutButton" to="MainMenu" method="_on_AboutButton_pressed"]
+[connection signal="pressed" from="MainMenu/Buttons/QuitButton" to="MainMenu" method="_on_QuitButton_pressed"]

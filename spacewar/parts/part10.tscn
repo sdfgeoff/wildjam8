@@ -38,4 +38,3 @@ hframes = 4
 
 [node name="ThrusterSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
-autoplay = true

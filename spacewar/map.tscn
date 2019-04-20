@@ -132,9 +132,21 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 3 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 1, 2, 3, 3.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "values": [ {
+"args": [  ],
+"method": "play_low_buzz"
+}, {
+"args": [  ],
+"method": "play_low_buzz"
+}, {
+"args": [  ],
+"method": "play_low_buzz"
+}, {
+"args": [  ],
+"method": "play_high_buzz"
+}, {
 "args": [  ],
 "method": "start_match"
 } ]
@@ -166,8 +178,6 @@ anchor_bottom = 1.0
 script = ExtResource( 3 )
 player_1_spawn = NodePath("GameView/GameView/Player1Spawn")
 player_2_spawn = NodePath("GameView/GameView/Player2Spawn")
-
-[node name="HUD" type="CanvasLayer" parent="."]
 
 [node name="IntroExitAnimation" type="AnimationPlayer" parent="."]
 anims/Death = SubResource( 1 )
@@ -206,7 +216,6 @@ scale = Vector2( 172.823, 93.1174 )
 texture = ExtResource( 2 )
 
 [node name="IntroBox" type="NinePatchRect" parent="."]
-modulate = Color( 1, 1, 1, 0 )
 material = ExtResource( 5 )
 anchor_top = 0.5
 anchor_right = 1.0
@@ -259,12 +268,11 @@ align = 1
 valign = 1
 
 [node name="Countdown" type="Label" parent="."]
-modulate = Color( 1, 1, 1, 0 )
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_top = -120.0
 margin_bottom = 9.0
 custom_fonts/font = SubResource( 4 )
-text = "Go!"
+text = "2"
 align = 1

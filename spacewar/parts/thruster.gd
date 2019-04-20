@@ -15,6 +15,7 @@ func _init():
 
 func _ready():
 	get_node(sound_path).volume_db = -80
+	get_node(sound_path).play()
 
 
 func apply_thrust(thrust):

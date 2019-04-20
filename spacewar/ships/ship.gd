@@ -4,6 +4,8 @@ export(Color) var ship_color = Color(0,0,1)
 export(PackedScene) var explosion = preload("res://fx/ship_splash.tscn")
 var _velocity_request := Vector3()
 
+var set_inertia = 0.0
+
 signal on_death(dying_ship, killer_bullet)
 
 func _init():
@@ -21,9 +23,10 @@ func _ready():
 
 func _process(_delta):
 	add_thrust(
-		Vector2(_velocity_request.x, _velocity_request.y),# * 1000.0 - global_transform.basis_xform_inv(linear_velocity) / 50.0,
-		_velocity_request.z * 100# - angular_velocity * 5.0
+		Vector2(_velocity_request.x, _velocity_request.y),
+		_velocity_request.z * 100
 	)
+	inertia = set_inertia
 
 
 func request_motion(velocity: Vector2, turn: float):
@@ -92,12 +95,12 @@ func recalc_mass(state):
 
 	var global_center_delta = transform.basis_xform(center)  # Where teh center should be in current global space
 
+	var tmp_inertia = 0.0
 	for module in get_children():
 		module.position -= center
+		tmp_inertia += module.mass * module.position.length_squared()
 	state.transform.origin += global_center_delta
-
-
-
+	set_inertia = tmp_inertia
 
 
 func get_thrusters():

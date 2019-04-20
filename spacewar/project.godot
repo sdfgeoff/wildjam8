@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="New Game Project"
+config/name="Space Master Forever"
 run/main_scene="res://ui/menu.tscn"
 config/icon="res://icon.png"
 
@@ -23,6 +23,7 @@ config/icon="res://icon.png"
 
 defs="*res://defs.gd"
 state="*res://state.gd"
+utils="*res://utils.gd"
 
 [display]
 

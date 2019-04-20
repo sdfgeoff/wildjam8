@@ -32,4 +32,4 @@ void fragment(){
 
 [resource]
 shader = SubResource( 1 )
-shader_param/circle_radius = 850.0
+shader_param/circle_radius = 900.0

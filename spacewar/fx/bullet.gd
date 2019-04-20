@@ -12,7 +12,7 @@ func _ready():
 	contact_monitor = true
 	contacts_reported = 5
 	connect("body_entered", self, "_on_hit")
-	$AudioStreamPlayer.pitch_scale = randf() * 0.2 + 1.0
+	utils.play_sound_effect(preload("res://sounds/laser.wav"), 1.0, randf() * 0.2 + 1.0)
 	connect("on_warp", self, "_on_warp")
 
 # Called when the node enters the scene tree for the first time.

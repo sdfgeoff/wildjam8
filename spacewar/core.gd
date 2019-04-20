@@ -22,6 +22,11 @@ onready var spawns = [
 	get_node(player_2_spawn),
 ]
 
+var controllers = [
+	null,
+	null
+]
+
 
 func _ready():
 	spawn_player(0)
@@ -36,12 +41,10 @@ func _process(delta):
 	if match_state == MatchState.INTRO:
 		pass
 	elif match_state == MatchState.PLAYING:
-		update_player(0)
-		update_player(1)
+		update_controllers()
 	elif match_state == MatchState.EXIT:
 		# Allow the player to dodge
-		update_player(0)
-		update_player(1)
+		update_controllers()
 		
 		# Ensure that if one player dies after the other, the
 		# end card is updated correctly
@@ -63,6 +66,7 @@ func _process(delta):
 func spawn_player(player_id):
 	var player = "player_%d." % (player_id + 1)
 	var ship_type_id = state.get(player + "ship_type")
+	var player_type_id = state.get(player + "player_type")
 	var ship_base_scene = defs.SHIPS[min(ship_type_id, len(defs.SHIPS) - 1)]
 	
 	var ship = ship_base_scene.instance()
@@ -72,7 +76,11 @@ func spawn_player(player_id):
 	
 	ships[player_id] = ship
 	ship.connect("on_death", self, "_player_death")
-
+	
+	if player_type_id == defs.PLAYER_TYPES.HUMAN:
+		controllers[player_id] = PlayerController.new(player_id)
+	else:
+		controllers[player_id] = AIController.new(player_type_id)
 
 func start_match():
 	match_state = MatchState.PLAYING
@@ -116,29 +124,141 @@ func _death_animation_finished():
 		state.set("game.current_round", current_round+1)
 		get_tree().change_scene("res://map.tscn") 
 	
+func update_controllers():
+	for player_id in range(len(ships)):
+		var ship = ships[player_id]
+		if ship == null:
+			continue
+			
+		var controller = controllers[player_id]
+		controller.update(ship, ships)
 
 
-func update_player(player_id):
-	var player = "player_%d." % (player_id + 1)
-	var ship = ships[player_id]
-	if ship == null:
-		return
+
+func play_low_buzz():
+	utils.play_sound_effect(preload("res://sounds/bluzz1.wav"))
+
+func play_high_buzz():
+	utils.play_sound_effect(preload("res://sounds/bluzz2.wav"))
+
+
+
+class PlayerController extends Node:
+	var player_id = 0
+	func _init(id):
+		player_id = id
+
+	func update(ship, other_ships):
+		var player = "player_%d." % (player_id + 1)
+		
+		var thrust = 0.0
+		var turn = 0.0
+		if Input.is_action_pressed(player + "forward"):
+			thrust += 1.0
+		if Input.is_action_pressed(player + "backward"):
+			thrust -= 1.0
+		if Input.is_action_pressed(player + "left"):
+			turn -= 1.0
+		if Input.is_action_pressed(player + "right"):
+			turn += 1.0
+		
+		ship.request_motion(Vector2(0,thrust), turn)
+		
+		if Input.is_action_pressed(player + "primary"):
+			ship.activate_primary()
+		if Input.is_action_pressed(player + "secondary"):
+			ship.activate_secondary()
+
+
+class AIController extends Node:
+	var difficulty_percent = 0
+	func _init(diff):
+		if diff == defs.PLAYER_TYPES.AI_EASY:
+			difficulty_percent = 0.2
+		if diff == defs.PLAYER_TYPES.AI_MED:
+			difficulty_percent = 0.6
+		if diff == defs.PLAYER_TYPES.AI_HARD:
+			difficulty_percent = 1.0
+
+	func update(ship, other_ships):
+		var target_ship = null
+		for o_ship in other_ships:
+			if o_ship != ship:
+				target_ship = o_ship
+		
+
+		if target_ship == null:
+			request_velocity(ship, Vector2(0,0), 0.0)
+			return
+		
+		var times = []
+		
+		var num_samples = difficulty_percent * 20
+		for i in range(num_samples):
+			times.append(i / num_samples * 10.0)  # up to 10 seconds in the future
+
+		
+		var intercepts = []  # Array of [position, quality]
+		for i in range(len(times)):
+			var time = times[i]
+			var future_position = predict_position(target_ship, time)
+			var vec_to_intercept = (future_position - ship.global_transform.origin)
+			
+			var bullet_travel_distance = 2000.0 * time # 2000 = bullet speed
+			var bullet_position = ship.global_transform.origin + bullet_travel_distance * vec_to_intercept.normalized()
+			var angle = abs(vec_to_intercept.angle_to(ship.global_transform.y))
+			var quality = (bullet_position - future_position).length() / 10000.0 * angle
+			#quality += pow(time, 2.0)  # Prioritize ones closer in time
+			#print("T: ", time, " Q: ", quality)
+			intercepts.append([quality, future_position, time])
+		
+		intercepts.sort_custom(self, "sort_quality")
+		#print(times)
+		var intercept = intercepts[0]
+		var intercept_position = intercept[1]
+		var intercept_quality = intercept[0]  # Lower is better
+		#print(intercept_quality)
+		var turn = calc_turn_to_point_at(ship, intercept_position)
+		
+		var motion = Vector2(0, (ship.global_transform.origin - intercept_position).length() - 1000.0)
+		
+		ship.request_motion(motion, turn)
+		
+		if intercept_quality < 0.02:
+			ship.activate_primary()
 	
-	var thrust = 0.0
-	var turn = 0.0
-	if Input.is_action_pressed(player + "forward"):
-		thrust += 1.0
-	if Input.is_action_pressed(player + "backward"):
-		thrust -= 1.0
-	if Input.is_action_pressed(player + "left"):
-		turn -= 1.0
-	if Input.is_action_pressed(player + "right"):
-		turn += 1.0
+	func sort_quality(a, b):
+		return a[0] < b[0]
 	
-	ship.request_motion(Vector2(0,thrust), turn)
+	func predict_position(target_ship, future_time):
+		var target_velocity = target_ship.linear_velocity
+		var target_probable_acceleration = target_ship.global_transform.y * 0.2  # Assuming uses throttle 20% of the time
+		
+		return target_ship.global_transform.origin + target_velocity * future_time + target_probable_acceleration * pow(future_time, 2.0)
 	
-	if Input.is_action_pressed(player + "primary"):
-		ship.activate_primary()
-	if Input.is_action_pressed(player + "secondary"):
-		ship.activate_secondary()
+	func request_velocity(ship, velocity: Vector2, turn: float):
+		"""Tries to apply a velocity to a ship"""
+		ship.request_motion(
+			velocity * 1000.0 - ship.global_transform.basis_xform_inv(ship.linear_velocity) / 50.0,
+			turn - ship.angular_velocity * 2.0
+		)
 	
+	func calc_turn_to_point_at(ship: RigidBody2D, position):
+		"""Tries to point the ship at a specific point in space"""
+		var vec_to_target: Vector2 = position - ship.global_transform.origin
+		var current_vec: Vector2 = ship.global_transform.y
+
+		var ang_difference = current_vec.angle_to(vec_to_target)
+		var current_ang_vel = ship.angular_velocity  # Radians per second (I hope)
+		
+		var time_to_target = 999.0
+		if current_ang_vel != 0:
+			time_to_target = ang_difference / current_ang_vel
+		if time_to_target < 0:
+			time_to_target = -2 * time_to_target
+		time_to_target *= sign(ang_difference)
+		var deceleration_time = current_ang_vel * 2.0 # Should use inertia and torque in here
+
+		var delta = (time_to_target - deceleration_time)
+		return pow(delta, 3.0)
+

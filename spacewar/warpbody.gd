@@ -10,7 +10,11 @@ signal on_warp(warp_count)
 func _process(delta):
 	var radius = global_transform.origin.length()
 	if radius > WARP_DISTANCE:
-		var direction = global_transform.origin.normalized()
-		global_transform.origin = -direction * WARP_DISTANCE * 0.95
+		global_transform.origin = calculate_warped_position()
 		warp_count += 1
 		emit_signal("on_warp", warp_count)
+
+
+func calculate_warped_position():
+	var direction = global_transform.origin.normalized()
+	return -direction * WARP_DISTANCE * 0.95

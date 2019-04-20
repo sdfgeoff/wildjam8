@@ -30,6 +30,10 @@ func update_player(player_id):
 
 	if Input.is_action_just_pressed(player + "primary"):
 		new_ready_state = !old_ready_state
+		if new_ready_state:
+			play_high_blip()
+		else:
+			play_low_blip()
 
 		if new_player_type != defs.PLAYER_TYPES.HUMAN:
 			# If it's an AI becoming ready, pick a ship
@@ -40,8 +44,10 @@ func update_player(player_id):
 
 		# Select player type
 		if Input.is_action_just_pressed(player + "forward"):
+			play_low_blip()
 			new_player_type -= 1
 		if Input.is_action_just_pressed(player + "backward"):
+			play_low_blip()
 			new_player_type += 1
 		if new_player_type < 0:
 			new_player_type = defs.PLAYER_TYPES.MAX - 1
@@ -57,8 +63,10 @@ func update_player(player_id):
 			var num_ships = len(defs.SHIPS)
 
 			if Input.is_action_just_pressed(player + "left"):
+				play_low_blip()
 				new_ship_type -= 1
 			if Input.is_action_just_pressed(player + "right"):
+				play_low_blip()
 				new_ship_type += 1
 
 			if new_ship_type < 0:
@@ -75,3 +83,20 @@ func update_player(player_id):
 		state.set(player + "player_type", new_player_type)
 	
 	return new_ready_state
+
+
+func _on_AboutButton_pressed():
+	play_high_blip()
+	get_tree().change_scene("res://ui/about.tscn")
+
+
+func _on_QuitButton_pressed():
+	play_high_blip()
+	get_tree().quit()
+
+
+func play_low_blip():
+	utils.play_sound_effect(preload("res://sounds/bleep1.wav"))
+
+func play_high_blip():
+	utils.play_sound_effect(preload("res://sounds/bleep2.wav"))
